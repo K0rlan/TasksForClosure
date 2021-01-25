@@ -3,19 +3,15 @@
 var array = [[45, 12], [10, 19], [191, 3], [41, 81]]
 print("First input: \(array)")
 
-func sortingArray(arr: inout [[Int]],  f: (Int, Int) -> Bool) -> [[Int]]{
-    for index in 0...arr.count-1 {
-        if f(arr[index][0], arr[index][1]){
-            arr[index].swapAt(0, 1)
-        }
+func sortingArray(arr: inout [[Int]]) -> [[Int]]{
+    for index in arr.indices{
+        arr[index].sort{ $0 < $1 }
     }
     arr.sort { $0.first! > $1.first! }
-//    or
-//   arr.sort { $0.[0] > $1.[0]] }
     return arr
 }
 
-print("First output: \(sortingArray(arr: &array) { $0 > $1 })")
+print("First output: \(sortingArray(arr: &array))")
 print("")
 
 //MARK: - 2 task -
@@ -25,13 +21,11 @@ print("Second input: \(string)")
 
 func countLetters (string: String, f: (Character, [Character : Int]) -> Bool) -> [Character : Int]{
     var dict = [Character : Int]()
-    let filtered = String(string.filter { !" ".contains($0) })
-    let array = Array(filtered)
-    
+    let filtered = Array(String(string.filter { !" ".contains($0) }))
     for item in filtered {
         dict[item] = 0
     }
-    for item in array {
+    for item in filtered {
         if f(item, dict){
             dict[item]! += 1
         }
