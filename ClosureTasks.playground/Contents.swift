@@ -28,12 +28,12 @@ print("Second input: \(string)")
 func countLetters (string: String) -> [Character : Int]{
     let filtered = string.filter { !" ".contains($0) }
     var dict = Dictionary(grouping: filtered, by: { Character(extendedGraphemeClusterLiteral: $0) }).mapValues { _ in 0 }
+    var letterCount = Int()
     for i in filtered{
-        let sensitiveCount = string.filter { $0 == i }.count
-        dict[i] = sensitiveCount
+        letterCount = string.filter { $0 == i }.count
+        dict[i] = letterCount
     }
     return dict
-    
 }
 print("Second output: \(countLetters(string: string))")
 print("")
