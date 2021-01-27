@@ -7,7 +7,13 @@ func sortingArray(arr: inout [[Int]]) -> [[Int]]{
     for index in arr.indices{
         arr[index].sort{ $0 < $1 }
     }
-    arr.sort { $0.first! > $1.first! }
+    arr.sort { (arr1: [Int], arr2: [Int]) -> Bool in
+        if let i = arr1.first, let j = arr2.first{
+            return i > j
+        }
+        return false
+    }
+    
     return arr
 }
 
@@ -19,21 +25,17 @@ print("")
 var string = "Hello world"
 print("Second input: \(string)")
 
-func countLetters (string: String, f: (Character, [Character : Int]) -> Bool) -> [Character : Int]{
-    var dict = [Character : Int]()
-    let filtered = Array(String(string.filter { !" ".contains($0) }))
-    for item in filtered {
-        dict[item] = 0
-    }
-    for item in filtered {
-        if f(item, dict){
-            dict[item]! += 1
-        }
+func countLetters (string: String) -> [Character : Int]{
+    let filtered = string.filter { !" ".contains($0) }
+    var dict = Dictionary(grouping: filtered, by: { Character(extendedGraphemeClusterLiteral: $0) }).mapValues { _ in 0 }
+    for i in filtered{
+        let sensitiveCount = string.filter { $0 == i }.count
+        dict[i] = sensitiveCount
     }
     return dict
+    
 }
-
-print("Second output: \(countLetters(string: string) { $1.keys.contains($0) })")
+print("Second output: \(countLetters(string: string))")
 print("")
 
 //MARK: - 3 task -
